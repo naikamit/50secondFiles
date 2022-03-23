@@ -1,12 +1,18 @@
-import os
 from os import listdir
 from os.path import isfile, join
+import os
 
 song_list = []
-loading_dir = '/home/amit/Desktop/HPHI/'
-saving_dir = '/home/amit/Desktop/HPHI/shorts/'
+loading_dir = '/home/wv/Downloads/120_bpm/'
+saving_dir = '/home/wv/Downloads/120_bpm/shorts/'
 
 allfiles = [f for f in listdir(loading_dir) if isfile(join(loading_dir, f))]
+
+if not os.path.exists(f'{saving_dir}'):
+    try:
+        os.mkdir(f'{saving_dir}')
+    except Exception as e:
+        print(e)
 
 for song in allfiles:
     if (song.endswith('mp3') and
@@ -20,6 +26,6 @@ for song in allfiles:
 
 try:
     for song in song_list:
-        os.system(f'ffmpeg -ss 00 -i {loading_dir}"{song}" -t 60 -c copy {saving_dir}"{song}"')
+        os.system(f'ffmpeg -ss 00 -i {loading_dir}"{song}" -b:a 128k -t 60 {saving_dir}"{song}"')
 except Exception as e:
     print(e)
